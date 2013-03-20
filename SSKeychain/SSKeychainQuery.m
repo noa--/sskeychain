@@ -28,6 +28,10 @@
 @synthesize accessGroup = _accessGroup;
 @synthesize passwordData = _passwordData;
 
++ (SSKeychainQuery *) keychainQuery {
+    return SSKeychainAutorelease([[self alloc] init]);
+}
+
 #pragma mark - NSObject
 
 #if !__has_feature(objc_arc)

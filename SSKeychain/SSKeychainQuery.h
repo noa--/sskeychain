@@ -13,6 +13,8 @@
  */
 @interface SSKeychainQuery : NSObject
 
++ (SSKeychainQuery *) keychainQuery;
+
 /** kSecAttrAccount */
 @property (nonatomic, copy) NSString *account;
 
