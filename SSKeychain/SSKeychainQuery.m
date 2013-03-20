@@ -23,26 +23,14 @@
 
 @implementation SSKeychainQuery
 
-@synthesize account = _account;
-@synthesize service = _service;
-@synthesize accessGroup = _accessGroup;
-@synthesize passwordData = _passwordData;
+@synthesize account;
+@synthesize service;
+@synthesize accessGroup;
+@synthesize passwordData;
 
 + (SSKeychainQuery *) keychainQuery {
     return SSKeychainAutorelease([[self alloc] init]);
 }
-
-#pragma mark - NSObject
-
-#if !__has_feature(objc_arc)
-- (void)dealloc {
-    [_account release]; _account = nil;
-    [_service release]; _service = nil;
-    [_accessGroup release]; _accessGroup = nil;
-    [_passwordData release]; _passwordData = nil;
-    [super dealloc];
-}
-#endif
 
 #pragma mark - Public
 
@@ -158,18 +146,10 @@
 
 
 - (NSString *)password {
-    if (_passwordData) {
-        return SSKeychainAutorelease([[NSString alloc] initWithData:_passwordData encoding:NSUTF8StringEncoding]);
+    if (self.passwordData) {
+        return SSKeychainAutorelease([[NSString alloc] initWithData:self.passwordData encoding:NSUTF8StringEncoding]);
     }
     return nil;
-}
-
-
-- (void)setPasswordData:(NSData *)data {
-#if !__has_feature(objc_arc)
-    [_passwordData release];
-#endif
-    _passwordData = [data copy];
 }
 
 
