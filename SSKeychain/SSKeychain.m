@@ -23,41 +23,66 @@ NSString *const kSSKeychainWhereKey = @"svce";
 
 @implementation SSKeychain
 
-+ (NSString *)passwordForService:(NSString *)serviceName account:(NSString *)account {
++ (NSString *)passwordForService:(NSString *)serviceName account:(NSString *)account error:(NSError *__autoreleasing *) error {
     SSKeychainQuery *query = [SSKeychainQuery keychainQuery];
     query.service = serviceName;
     query.account = account;
-    [query fetch:nil];
+    [query fetch:error];
     return query.password;
 }
 
 
-+ (BOOL)deletePasswordForService:(NSString *)serviceName account:(NSString *)account {
++ (BOOL)deletePasswordForService:(NSString *)serviceName account:(NSString *)account error:(NSError *__autoreleasing *) error {
     SSKeychainQuery *query = [SSKeychainQuery keychainQuery];
     query.service = serviceName;
     query.account = account;
-    return [query delete:nil];
+    return [query delete:error];
 }
 
 
-+ (BOOL)setPassword:(NSString *)password forService:(NSString *)serviceName account:(NSString *)account {
++ (BOOL)setPassword:(NSString *)password forService:(NSString *)serviceName account:(NSString *)account error:(NSError *__autoreleasing *) error {
     SSKeychainQuery *query = [SSKeychainQuery keychainQuery];
     query.service = serviceName;
     query.account = account;
     query.password = password;
-    return [query save:nil];
+    return [query save:error];
 }
 
 
-+ (NSArray *)allAccounts {
++ (NSArray *)allAccountsWithError:(NSError *__autoreleasing *) error {
     return [self accountsForService:nil];
 }
 
 
-+ (NSArray *)accountsForService:(NSString *)serviceName {
++ (NSArray *)accountsForService:(NSString *)serviceName error:(NSError *__autoreleasing *) error {
     SSKeychainQuery *query = [SSKeychainQuery keychainQuery];
     query.service = serviceName;
-    return [query fetchAll:nil];
+    return [query fetchAll:error];
+}
+
+
++ (NSString *)passwordForService:(NSString *)serviceName account:(NSString *)account {
+    return [self passwordForService:serviceName account:account error:nil];
+}
+
+
++ (BOOL)deletePasswordForService:(NSString *)serviceName account:(NSString *)account {
+    return [self deletePasswordForService:serviceName account:account error:nil];
+}
+
+
++ (BOOL)setPassword:(NSString *)password forService:(NSString *)serviceName account:(NSString *)account {
+    return [self setPassword:password forService:serviceName account:account error:nil];
+}
+
+
++ (NSArray *)allAccounts {
+    return [self allAccountsWithError:nil];
+}
+
+
++ (NSArray *)accountsForService:(NSString *)serviceName {
+    return [self accountsForService:serviceName error:nil];
 }
 
 
